@@ -18,7 +18,7 @@ script:
 - cmake --build . --target package
 - cd ../
 - doxygen print_ip.Doxyfile
-- cd ../
+- cd ../  
 
 before_deploy:
   python makedeploy.py
