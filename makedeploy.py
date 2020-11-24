@@ -18,7 +18,7 @@ text = '''{
     },
 
     "files":
-        [{"includePattern": "allocator/build/_CPack_Packages/Linux/DEB/(.*\.deb)", "uploadPattern": "pool/main/a/allocator/$1",
+        [{"includePattern": "print_ip/build/_CPack_Packages/Linux/DEB/(.*\.deb)", "uploadPattern": "pool/main/p/print_ip/$1",
             "matrixParams": {
             "deb_distribution": "trusty",
             "deb_component": "main",
