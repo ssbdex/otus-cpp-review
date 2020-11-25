@@ -2,7 +2,7 @@ dist:
   bionic
 language: cpp    
 compiler: gcc
-#before_script:
+before_script:
 - echo "deb http://archive.ubuntu.com/ubuntu bionic main universe" | sudo tee -a /etc/apt/sources.list
 - sudo apt-get update -qq 
 - sudo apt-get install doxygen
