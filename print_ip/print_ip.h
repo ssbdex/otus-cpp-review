@@ -46,14 +46,14 @@ typename SFINAE = typename std::enable_if<
         std::is_same< Cont<T, A>, std::vector<T, A> >::value || 
         std::is_same< Cont<T, A>, std::list<T, A> >::value, void>::type >  
 void print_ip(const Cont<T,A>& ip_num){
-    auto it=ip_num.cbegin();
-    while (it!=ip_num.cend()){
-        std::cout<<*it;
+    auto it = ip_num.cbegin();
+    while (it != ip_num.cend()){
+        std::cout << *it;
         ++it;
-        if (it==ip_num.cend()){ 
-            std::ip_num<<std::endl;
+        if (it == ip_num.cend()){ 
+            std::cout << std::endl;
         } else {
-            std::cout<<'.';
+            std::cout << '.';
         }
     }
 }
@@ -78,7 +78,7 @@ void print_ip(const std::basic_string<U,A>& ip_str){
 template<std::size_t I = 0, typename... Tp>
 typename std::enable_if<I == sizeof...(Tp), void>::type
 print_ip([[maybe_unused]] std::tuple<Tp...>& t){ 
-    std::cout<<std::endl; 
+    std::cout << std::endl; 
 }
 
 
@@ -95,9 +95,9 @@ template<std::size_t I = 0, typename... Tp>
 typename std::enable_if<I<sizeof...(Tp), void>::type
 print_ip(std::tuple<Tp...>& t)
 {
-    static_assert(std::is_same<  decltype(std::get<I>(t)),  decltype(std::get<0>(t))>::value, "All elements of tuple must be the same type!");
+    static_assert(std::is_same< decltype(std::get<I>(t)),  decltype(std::get<0>(t))>::value, "All elements of tuple must be the same type!");
     if constexpr (I>0) {
-        std::cout<<".";
+        std::cout << ".";
     }
     std::cout << std::get<I>(t);
     

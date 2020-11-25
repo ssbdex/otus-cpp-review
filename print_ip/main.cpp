@@ -34,6 +34,7 @@ int main(int, char**) {
     auto t1 = std::make_tuple(9,10,11,12);
     print_ip(t1);
 
+  //  Uncomment to check error when types are different
   //  auto t2 = std::make_tuple(9,10,11LL,12);
   //  print_ip(t2);
 
