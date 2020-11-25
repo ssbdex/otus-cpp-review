@@ -24,21 +24,22 @@ before_deploy:
   python makedeploy.py
 
 deploy:
-  provider: bintray
-  file: "deploy.txt"
-  user: "ampermetr123"
-  key: "$BINTRAY_API_KEY"
-  skip_cleanup: true # to upload artifacts created during the build
-  on:
-    branch: hw3
+  - provider: bintray
+    file: "deploy.txt"
+    user: "ampermetr123"
+    key: "$BINTRAY_API_KEY"
+    skip_cleanup: true # to upload artifacts created during the build
+    on:
+      branch: hw3
     
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  keep_history: false 
-  local_dir: print_ip/docs/html 
-  on:
-    branch: gh-pages
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+    keep_history: true 
+    local_dir: print_ip/docs/html 
+    target_branch: gh_pages
+    on:
+      branch: hw3
     
     
 
