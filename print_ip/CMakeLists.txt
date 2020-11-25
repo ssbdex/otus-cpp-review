@@ -9,8 +9,7 @@ function(append_warn_flags target)
 endfunction()
 
 
-project(hw3 VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
-
+project(print_ip VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 add_executable(print_ip main.cpp)
 set_target_properties(print_ip PROPERTIES
     CXX_STANDARD 17
@@ -21,6 +20,7 @@ append_warn_flags(print_ip)
 # Package setup
 install(TARGETS print_ip RUNTIME DESTINATION bin)
 set(CPACK_GENERATOR DEB)
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PACKAGE_VERSION_MAJOR ${PROJECT_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${PROJECT_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${PROJECT_VERSION_PATCH})
