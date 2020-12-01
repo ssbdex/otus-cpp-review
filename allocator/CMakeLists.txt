@@ -10,12 +10,13 @@ endfunction()
 
 # Project setup 
 project(ssb-alloc VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
-find_package(Boost REQUIRED) 
+#find_package(Boost REQUIRED) 
 add_executable(ssb-alloc main.cpp)
 configure_file(config.h.in config.h)
 target_include_directories(ssb-alloc 
     PRIVATE ${CMAKE_BINARY_DIR}
-    ${Boost_INCLUDE_DIRS})
+    #${Boost_INCLUDE_DIRS}
+    )
 set_target_properties(ssb-alloc PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
