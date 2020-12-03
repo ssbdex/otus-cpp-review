@@ -66,7 +66,9 @@ void print_ip(const Cont<T,A>& ip_num){
  * @tparam T - std::string
  * @param  ip_str - string that contains ip adress
  */
-template <typename U, typename A> 
+template <typename U, typename A, 
+typename SFINAE = typename std::enable_if<
+        std::is_polymorphic<std::basic_string<U,A > >::value, void >::type >
 void print_ip(const std::basic_string<U,A>& ip_str){
     std::cout << ip_str << std::endl;
 }
