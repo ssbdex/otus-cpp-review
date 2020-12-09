@@ -7,8 +7,6 @@ text = '''{
         "subject": "ampermetr123",
         "desc": "Homework 2 of OTUS-CPP course",
         "website_url": "www.jfrog.com",
-        "issue_tracker_url": "https://github.com/Ampermetr123/otus-cpp/issues",
-        "vcs_url": "https://github.com/Ampermetr123/otus-cpp.git",
         "licenses": ["GPL-2.0"]
     },
 
