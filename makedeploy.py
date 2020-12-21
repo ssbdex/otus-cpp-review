@@ -3,7 +3,7 @@ project_name = "mypaint"
 
 text = '''{
     "package": {
-        "name": project_name,
+        "name": "%s",
         "repo": "otus-cpp",
         "subject": "ampermetr123",
         "desc": "Homework 4 of OTUS-CPP course",
@@ -27,7 +27,7 @@ text = '''{
 
     "publish": true
 
-}''' % (os.getenv('TRAVIS_BUILD_NUMBER',0), project_name, project_name[0], project_name)
+}''' % (project_name, os.getenv('TRAVIS_BUILD_NUMBER',0), project_name, project_name[0], project_name)
 
 with open("./deploy.txt","w") as f:
     f.write(text)
