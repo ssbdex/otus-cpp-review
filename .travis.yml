@@ -18,7 +18,7 @@ script:
 #- cmake --build . --target test
 - cmake --build . --target package
 - cd ../
-- doxygen mypaint.Doxyfile
+- doxygen doc.Doxyfile
 - cd ../  
 
 before_deploy:
@@ -31,7 +31,7 @@ deploy:
     key: "$BINTRAY_API_KEY"
     skip_cleanup: true # to upload artifacts created during the build
     on:
-      branch: hw3
+      branch: hw4
     
   - provider: pages
     skip_cleanup: true

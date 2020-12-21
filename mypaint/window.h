@@ -8,11 +8,13 @@ namespace mypaint
 
     class Window {
     public:
-        virtual Pen setPen(Pen pen);
-        virtual Brush setBrush(Brush brush);
-        virtual void drawPixel(Point p);
-        virtual void drawLine(Point p1, Point p2);
-        virtual void drawPolygone(std::vector<Point> points);
+        virtual Pen setPen(Pen pen) = 0;
+        virtual Brush setBrush(Brush brush) = 0;
+        virtual void drawPixel(Point p) = 0;
+        virtual void drawLine(Point p1, Point p2) = 0;
+        virtual void drawPolygone(std::vector<Point> points) = 0;
+        virtual void clear() = 0;
+        virtual void clearRect(Rect rect) = 0;
     };
 
     class GraphDeviceContext {
@@ -28,6 +30,8 @@ namespace mypaint
         void drawPixel(Point p) override;
         void drawLine(Point p1, Point p2) override;
         void drawPolygone(std::vector<Point> points) override;
+        void clear() override;
+        void clearRect(Rect rect) override;
     private:
         int width, height;
         std::unique_ptr<GraphDeviceContext> ctx;

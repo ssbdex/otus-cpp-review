@@ -1,14 +1,13 @@
 import os
 project_name = "mypaint"
+
 text = '''{
     "package": {
         "name": project_name,
         "repo": "otus-cpp",
         "subject": "ampermetr123",
-        "desc": "Homework 3 of OTUS-CPP course",
+        "desc": "Homework 4 of OTUS-CPP course",
         "website_url": "www.jfrog.com",
-        "issue_tracker_url": "https://github.com/Ampermetr123/otus-cpp/issues",
-        "vcs_url": "https://github.com/Ampermetr123/otus-cpp.git",
         "licenses": ["GPL-2.0"]
     },
 

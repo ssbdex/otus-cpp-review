@@ -9,9 +9,15 @@ function(append_warn_flags target)
 endfunction()
 
 
-
 project(mypaint VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
-add_executable(mypaint main.cpp)
+add_executable(mypaint main.cpp controller.cpp 
+    controller.h
+    figure.h
+    model.h
+    stuff.h
+    view.h
+    window.h    
+)
 
 set_target_properties(mypaint PROPERTIES
     CXX_STANDARD 17
