@@ -10,7 +10,7 @@ before_script:
 #- sudo apt-get install libboost-test-dev -y   
 
 script:
-- cd mypaint
+- cd mypaint  
 - mkdir build
 - cd build
 - cmake .. -DCMAKE_BUILD_TYPE:STRING=Release
@@ -41,12 +41,3 @@ deploy:
     target_branch: gh-pages
     on:
       branch: hw4
-    
-    
-
-  # provider: script
-  # skip_cleanup: true
-  # script:
-  # - curl -T helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb -uAmpermetr123:$BINTRAY_API_KEY "https://api.bintray.com/content/ampermetr123/otus-cpp/helloworld/$TRAVIS_BUILD_NUMBER/helloworld-0.0.$TRAVIS_BUILD_NUMBER-Linux.deb;deb_distribution=bionic;deb_component=main;deb_architecture=amd64;publish=1"
-  # on:
-  #   branch: hw1

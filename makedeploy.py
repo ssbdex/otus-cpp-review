@@ -14,24 +14,22 @@ text = '''{
     },
 
     "version": {
-        "name": "0.0.$TRAVIS_BUILD_NUMBER",
+        "name": "0.0.%s",
         "desc": "This is a version"
     },
 
     "files":
-        [{  "includePattern": "{}/build/_CPack_Packages/Linux/DEB/(.*\.deb)".format(project_name), 
-            "uploadPattern": "pool/main/{}/{}/$1".format(project_name[0],project_name),
-            "matrixParams": {
-            "deb_distribution": "trusty",
-            "deb_component": "main",
-            "deb_architecture": "amd64"}
-        }
-        ],
+        [{  
+            "includePattern": "%s/build/_CPack_Packages/Linux/DEB/(.*\.deb)", 
+            "uploadPattern": "pool/main/%s/%s/$1",
+            "matrixParams": { "deb_distribution": "trusty", "deb_component": "main", "deb_architecture": "amd64"}
+        }],
+
     "publish": true
 
-}'''
+}''' % (os.getenv('TRAVIS_BUILD_NUMBER',0), project_name, project_name[0], project_name)
 
 with open("./deploy.txt","w") as f:
-    f.write( text.replace('$TRAVIS_BUILD_NUMBER', os.getenv('TRAVIS_BUILD_NUMBER',0) ))
+    f.write(text)
 
 
