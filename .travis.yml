@@ -24,7 +24,7 @@ script:
 - cmake --build .
 
 - cmake --build . --target package
-- cd ../
+- cd ../../
 
 
 before_deploy:
