@@ -13,10 +13,14 @@ void example() {
     // бесконечная матрица int заполнена значениями -1
     Matrix<int, -1> matrix;
     assert(matrix.size() == 0); // все ячейки свободны
-    auto a = matrix[0][0];
+    [[maybe_unused]] auto a = matrix[0][0];
     assert(a == -1);
     assert(matrix.size() == 0);
-
+    
+    /*  Плохой "сайд эффект", но не придумал, как его избежать.?!
+        a=34;
+        assert(matrix[0][0]==34);
+    */
     matrix[100][100] = 314;
 
     assert(matrix[100][100] == 314);
@@ -58,6 +62,7 @@ void printMatrixElements(Matrix<T, defval>& m) {
 }
 
 int main(int, char**) {
+    example();
 
     // При запуске программы необходимо создать матрицу с пустым значением 0, заполнить главную
     // диагональ матрицы (от [0,0] до [9,9]) значениями от 0 до 9.

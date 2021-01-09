@@ -9,10 +9,8 @@ namespace mymatrix {
     template<typename T, T defaultValue>
     class MatrixIterator;
 
-
     template <typename T, T defaultValue>
     struct Matrix {
-
         using Key = size_t;
         typedef MatrixIterator<T, defaultValue > iterator;
         typedef MatrixIterator<const T, defaultValue> const_iterator;
@@ -30,56 +28,22 @@ namespace mymatrix {
         const_iterator begin() const {
             return MatrixIterator<const T, defaultValue>(data.end());
         }
+
         const_iterator end() const {
             return MatrixIterator<const T, defaultValue>(data.end());
         }
 
         struct Value {
-            Value(Matrix* m, Key index) : pMatrix(m), idx(index) {
-                PRETTY_LOG;
-                auto it = m->data.find(index);
-                val = it != m->data.end() ? it->second : defaultValue;
-            };
-
-            operator T() const {
-                PRETTY_LOG;
-                return val;
-            }
-
-            operator T& () {
-                PRETTY_LOG;
-                return val;
-            }
-
-            Value& operator=(const T& newVal) {
-                PRETTY_LOG;
-                if (newVal == defaultValue) {
-                    pMatrix->data.erase(idx);
-                    val = defaultValue;
-                }
-                else {
-                    pMatrix->data.insert_or_assign(idx, newVal);
-                    val = newVal;
-                }
-                return *this;
-            }
-
-            Value& operator=(const T&& newVal) {
-                PRETTY_LOG;
-                if (newVal == defaultValue) {
-                    pMatrix->data.erase(idx);
-                }
-                else {
-                    pMatrix->data.insert_or_assign(idx, newVal);
-                }
-                val = std::move(newVal);
-                return *this;
-            }
+            Value(Matrix* m, Key index);
+            operator T() const;
+            operator T& ();
+            Value& operator=(const T& newVal);
+            Value& operator=(const T&& newVal);
         private:
             Value& operator=(const Value& rv) = delete;
             Value& operator=(Value&& rv) = delete;
             Matrix* pMatrix;
-            Key idx;
+            Key key;
             T val;
         };
         friend Value;
@@ -87,7 +51,6 @@ namespace mymatrix {
         struct Row {
             Row(Matrix* m, unsigned i) :pMatrix(m), row(i) {}
             Value operator[](unsigned j) {
-                PRETTY_LOG;
                 return Value(pMatrix, Matrix::key(row, j));
             }
         private:
@@ -100,6 +63,7 @@ namespace mymatrix {
         size_t size() const {
             return data.size();
         }
+
         Row operator[] (unsigned i) {
             return Row(this, i);
         }
@@ -117,6 +81,48 @@ namespace mymatrix {
 
     };
 
+    ////////////////////////////// Matix::Value ////////////////////////////////////////////
+
+    template <typename T, T defaultValue>
+    Matrix<T, defaultValue>::Value::Value(Matrix* m, Key index) {
+        auto it = m->data.find(index);
+        val = it != m->data.end() ? it->second : defaultValue;
+    }
+
+    template <typename T, T defaultValue>
+    Matrix<T, defaultValue>::Value::operator T() const {
+        return val;
+    }
+
+    template <typename T, T defaultValue>
+    Matrix<T, defaultValue>::Value::operator T& () {
+        return val;
+    }
+
+    template <typename T, T defaultValue>
+    Value& Matrix<T, defaultValue>::Value::operator=(const T& newVal) {
+        if (newVal == defaultValue) {
+            pMatrix->data.erase(key);
+            val = defaultValue;
+        }
+        else {
+            pMatrix->data.insert_or_assign(key, newVal);
+            val = newVal;
+        }
+        return *this;
+    }
+
+    template <typename T, T defaultValue>
+    Value& Matrix<T, defaultValue>::Value::operator=(const T&& newVal) {
+        if (newVal == defaultValue) {
+            pMatrix->data.erase(key);
+        }
+        else {
+            pMatrix->data.insert_or_assign(key, newVal);
+        }
+        val = std::move(newVal);
+        return *this;
+    }
 
     ////////////////////////////// Iterator ////////////////////////////////////////////
 
@@ -153,7 +159,5 @@ namespace mymatrix {
     private:
         map_iterator it;
     };
-
-
 
 }
