@@ -38,7 +38,7 @@ namespace mymatrix {
             operator T() const;
             operator T& ();
             Value& operator=(const T& newVal);
-            Value& operator=(const T&& newVal);
+            //Value& operator=(const T&& newVal);
         private:
             Value& operator=(const Value& rv) = delete;
             Value& operator=(Value&& rv) = delete;
@@ -84,7 +84,7 @@ namespace mymatrix {
     ////////////////////////////// Matix::Value ////////////////////////////////////////////
 
     template <typename T, T defaultValue>
-    Matrix<T, defaultValue>::Value::Value(Matrix* m, Key index) {
+    Matrix<T, defaultValue>::Value::Value(Matrix* m, Key index):pMatrix(m), key(index) {
         auto it = m->data.find(index);
         val = it != m->data.end() ? it->second : defaultValue;
     }
@@ -100,7 +100,8 @@ namespace mymatrix {
     }
 
     template <typename T, T defaultValue>
-    Value& Matrix<T, defaultValue>::Value::operator=(const T& newVal) {
+    typename Matrix<T, defaultValue>::Value& 
+    Matrix<T, defaultValue>::Value::operator=(const T& newVal) {
         if (newVal == defaultValue) {
             pMatrix->data.erase(key);
             val = defaultValue;
@@ -112,17 +113,18 @@ namespace mymatrix {
         return *this;
     }
 
-    template <typename T, T defaultValue>
-    Value& Matrix<T, defaultValue>::Value::operator=(const T&& newVal) {
-        if (newVal == defaultValue) {
-            pMatrix->data.erase(key);
-        }
-        else {
-            pMatrix->data.insert_or_assign(key, newVal);
-        }
-        val = std::move(newVal);
-        return *this;
-    }
+    // template <typename T, T defaultValue>
+    // typename Matrix<T, defaultValue>::Value& 
+    // Matrix<T, defaultValue>::Value::operator=(const T&& newVal) {
+    //     if (newVal == defaultValue) {
+    //         pMatrix->data.erase(key);
+    //     }
+    //     else {  
+    //         pMatrix->data.insert_or_assign(key, newVal);
+    //     }
+    //     val = std::move(newVal);
+    //     return *this;
+    // }
 
     ////////////////////////////// Iterator ////////////////////////////////////////////
 

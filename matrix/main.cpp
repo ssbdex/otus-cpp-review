@@ -18,8 +18,9 @@ void example() {
     assert(matrix.size() == 0);
     
     /*  Плохой "сайд эффект", но не придумал, как его избежать.?!
-        a=34;
-        assert(matrix[0][0]==34);
+        auto b = matrix[0][0];
+        b=34;
+        assert(matrix[0][0]==34); //true, but expected false by semantic
     */
     matrix[100][100] = 314;
 
@@ -62,6 +63,7 @@ void printMatrixElements(Matrix<T, defval>& m) {
 }
 
 int main(int, char**) {
+
     example();
 
     // При запуске программы необходимо создать матрицу с пустым значением 0, заполнить главную
