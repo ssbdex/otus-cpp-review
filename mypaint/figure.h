@@ -38,17 +38,19 @@ namespace  mypaint
     class Rectangle : public Figure {
     public:
         Rectangle(Rect rect, Pen pen, Brush br)
-            :rect(rect), pen(pen), brush(br) {}
+            :rect(rect), pen(pen), brush(br) {
+        }
         void draw(Window& w) const override { /* TODO */ UNUSED(w); }
         Rect size() override { /* TODO */ return Rect(); }
-        Rect boundRect() override { /* TODO */ return Rect();}
-        std::tuple<FigureType, std::string> serialize() const override { /* TODO */ return {FigureType::Rectangle, ""};}
-        void deserialize(std::string data) override { /* TODO */ UNUSED(data);};
+        Rect boundRect() override { /* TODO */ return Rect(); }
+        std::tuple<FigureType, std::string> serialize() const override { /* TODO */ return { FigureType::Rectangle, "" }; }
+        void deserialize(std::string data) override { /* TODO */ UNUSED(data); };
     private:
         Rect rect;
         Pen pen;
         Brush brush;
     };
+
 
     class RectangleCreator : public IFigureCreator {
     public:
@@ -66,18 +68,20 @@ namespace  mypaint
     class Circle : public Figure {
     public:
         Circle(Point p, double r, Pen pen, Brush br)
-        :center(p), radius(r), pen(pen), brush(br) {}
-        void draw(Window& w) const override  { /* TODO */ UNUSED(w); }
+            :center(p), radius(r), pen(pen), brush(br) {
+        }
+        void draw(Window& w) const override { /* TODO */ UNUSED(w); }
         Rect size() override { /* TODO */ return Rect(); }
         Rect boundRect() override { /* TODO */ return Rect(); }
-        std::tuple<FigureType, std::string> serialize() const override { /* TODO */ return {FigureType::Circle, ""};}
-        void deserialize(std::string data) override { /* TODO */ UNUSED(data);};
+        std::tuple<FigureType, std::string> serialize() const override { /* TODO */ return { FigureType::Circle, "" }; }
+        void deserialize(std::string data) override { /* TODO */ UNUSED(data); };
     private:
         Point center;
         double radius;
         Pen pen;
         Brush brush;
     };
+
 
     class CircleCreator : public IFigureCreator {
     public:
@@ -95,20 +99,22 @@ namespace  mypaint
     class Line : public Figure {
     public:
         Line(Point p1, Point p2, Pen pen)
-            :p1(p1), p2(p2), pen(pen) {}
-        void draw(Window& w) const override  { /* TODO */ UNUSED(w); }
+            :p1(p1), p2(p2), pen(pen) {
+        }
+        void draw(Window& w) const override { /* TODO */ UNUSED(w); }
         Rect size() override { /* TODO */ return Rect(); }
         Rect boundRect() override { /* TODO */ return Rect(); }
-        std::tuple<FigureType, std::string> serialize() const override { /* TODO */ return {FigureType::Line, ""};}
-        void deserialize(std::string data) override { /* TODO */ UNUSED(data);};
+        std::tuple<FigureType, std::string> serialize() const override { /* TODO */ return { FigureType::Line, "" }; }
+        void deserialize(std::string data) override { /* TODO */ UNUSED(data); };
     private:
         Point p1, p2;
         Pen pen;
     };
 
+
     class LineCreator : public IFigureCreator {
     public:
-        std::unique_ptr<Figure> makeFigure(Point p1, Point p2,  Pen pen, [[maybe_unused]] Brush br) {
+        std::unique_ptr<Figure> makeFigure(Point p1, Point p2, Pen pen, [[maybe_unused]] Brush br) {
             return std::make_unique<Line>(p1, p2, pen);
         };
         std::unique_ptr<Figure> makeFigure(std::string data) {
@@ -119,20 +125,15 @@ namespace  mypaint
     };
 
 
-    
     inline std::unique_ptr<IFigureCreator> makeFigureCreator(FigureType t) {
-        switch (t)
-        {
+        switch (t) {
         case FigureType::Rectangle:
             return std::make_unique<RectangleCreator>();
-            break;
         case FigureType::Circle:
             return std::make_unique<CircleCreator>();
-            break;
         case FigureType::Line:
             return std::make_unique<LineCreator>();
-            break;
-        
+
         };
         return nullptr;
     }

@@ -16,28 +16,28 @@ namespace mypaint
 
     class Model {
     public:
-        
+
         using Model_Data = std::list< std::shared_ptr<Figure> >;
 
-        Model(){}
-        
+        Model() {}
+
         const Model_Data& getData() const {
             return data;
         }
-        
-        void clearData() { 
-            data.clear(); 
+
+        void clearData() {
+            data.clear();
         }
 
         void addFigure(std::shared_ptr<Figure> fg) {
             data.emplace_back(fg);
         }
 
-        void removeFigure(Figure *fg){
-            data.remove_if([fg](auto sp){ return sp.get()==fg; });
+        void removeFigure(Figure* fg) {
+            data.remove_if([fg](auto sp) { return sp.get() == fg; });
         }
 
-        void addSubscriber(std::weak_ptr<ModelSubscriber> handler) { 
+        void addSubscriber(std::weak_ptr<ModelSubscriber> handler) {
             observers.push_back(handler);
         };
 

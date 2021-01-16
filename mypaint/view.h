@@ -14,8 +14,8 @@ namespace  mypaint {
     public:
         View(const Model& model) :
             model(model),
-            bgPen{PenStyle::solid, Color::white, 1},
-            bgBrush{BrushStyle::filled, Color::white} {
+            bgPen{ PenStyle::solid, Color::white, 1 },
+            bgBrush{ BrushStyle::filled, Color::white } {
         }
 
         // Signals from Model

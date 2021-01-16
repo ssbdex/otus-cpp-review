@@ -60,13 +60,13 @@ namespace  mypaint {
             else if (user_cmd == "pen") {
                 int style, color, width;
                 std::cin >> style >> color >> width;
-                pCmd.reset(new Cmd_SetPen(ctrl, Pen{static_cast<PenStyle>(style),static_cast<Color>(color), width}));
+                pCmd.reset(new Cmd_SetPen(ctrl, Pen{ static_cast<PenStyle>(style),static_cast<Color>(color), width }));
             }
             else if (user_cmd == "brush") {
                 int style, color;
                 std::cin >> style >> color;
-                pCmd.reset(new Cmd_SetBrush(ctrl, Brush{static_cast<BrushStyle>(style), static_cast<Color>(color)}) );
-            }            
+                pCmd.reset(new Cmd_SetBrush(ctrl, Brush{ static_cast<BrushStyle>(style), static_cast<Color>(color) }));
+            }
             else {
                 ; // ignoring unknown command
             }

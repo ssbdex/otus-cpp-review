@@ -30,16 +30,16 @@ namespace mypaint
             //TODO: correct realisation
             UNUSED(rval);
             return true;
-        }; 
-        
-        /** 
+        };
+
+        /**
          * @return  rect, that can fill left and rigth rects
         */
         Rect& operator += (const Rect& rval) {
             //TODO: correct realisation
             UNUSED(rval);
             return *this;
-        }; 
+        };
     };
 
 

@@ -24,11 +24,11 @@ namespace  mypaint {
         std::ifstream f(filepath);
         int fg_type;
         std::string data;
-        while (f>>fg_type){
+        while (f >> fg_type) {
             auto fabric = makeFigureCreator(static_cast<FigureType>(fg_type));
-            f>>data;
-            if (fabric){
-                model.addFigure(fabric->makeFigure(data)); 
+            f >> data;
+            if (fabric) {
+                model.addFigure(fabric->makeFigure(data));
             }
         }
     }
@@ -37,11 +37,11 @@ namespace  mypaint {
     void Controller::exportDocument(std::string filepath) {
         std::ofstream f(filepath);
         for (auto fg : model.getData()) {
-             FigureType type;
-             std::string data;
-             std::tie(type, data) = fg->serialize();
-             f<<static_cast<int>(type)<<data;
-        }   
+            FigureType type;
+            std::string data;
+            std::tie(type, data) = fg->serialize();
+            f << static_cast<int>(type) << data;
+        }
     }
 
 
