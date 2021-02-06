@@ -11,7 +11,7 @@ namespace mymatrix {
 
     template <typename T, T defaultValue>
     struct Matrix {
-        using Key = size_t;
+        using Key = uint64_t;
         typedef MatrixIterator<T, defaultValue > iterator;
         typedef MatrixIterator<const T, defaultValue> const_iterator;
         friend iterator;
@@ -38,10 +38,9 @@ namespace mymatrix {
             operator T() const;
             operator T& ();
             Value& operator=(const T& newVal);
-            //Value& operator=(const T&& newVal);
-        private:
             Value& operator=(const Value& rv) = delete;
             Value& operator=(Value&& rv) = delete;
+        private:
             Matrix* pMatrix;
             Key key;
             T val;
@@ -49,13 +48,13 @@ namespace mymatrix {
         friend Value;
 
         struct Row {
-            Row(Matrix* m, unsigned i) :pMatrix(m), row(i) {}
-            Value operator[](unsigned j) {
+            Row(Matrix* m, uint32_t i) :pMatrix(m), row(i) {}
+            Value operator[](uint32_t j) {
                 return Value(pMatrix, Matrix::key(row, j));
             }
         private:
             Matrix* pMatrix;
-            unsigned row;
+            uint32_t row;
         };
         friend Row;
 
@@ -64,17 +63,17 @@ namespace mymatrix {
             return data.size();
         }
 
-        Row operator[] (unsigned i) {
+        Row operator[] (uint32_t i) {
             return Row(this, i);
         }
 
     private:
-        static Key key(unsigned i, unsigned j) {
+        static Key key(uint32_t i, uint32_t j) {
             return static_cast<Key>(i) << 32 | j;
         }
 
-        static std::pair<unsigned, unsigned> index(Key key) {
-            return std::make_pair<unsigned, unsigned>((key >> 32) & 0xFFFFFFFF, key & 0xFFFFFFFF);
+        static std::pair<uint32_t, uint32_t> index(Key key) {
+            return std::make_pair<uint32_t, uint32_t>((key >> 32) & 0xFFFFFFFF, key & 0xFFFFFFFF);
         }
 
         std::unordered_map<Key, T> data;
@@ -113,19 +112,6 @@ namespace mymatrix {
         return *this;
     }
 
-    // template <typename T, T defaultValue>
-    // typename Matrix<T, defaultValue>::Value& 
-    // Matrix<T, defaultValue>::Value::operator=(const T&& newVal) {
-    //     if (newVal == defaultValue) {
-    //         pMatrix->data.erase(key);
-    //     }
-    //     else {  
-    //         pMatrix->data.insert_or_assign(key, newVal);
-    //     }
-    //     val = std::move(newVal);
-    //     return *this;
-    // }
-
     ////////////////////////////// Iterator ////////////////////////////////////////////
 
 
@@ -134,7 +120,7 @@ namespace mymatrix {
     public:
         using map_iterator = typename std::unordered_map<typename Matrix<T, defaultValue>::Key, T>::iterator;
 
-        using reference = typename std::tuple<unsigned, unsigned, T&>; //typename map_iterator::reference;
+        using reference = typename std::tuple<uint32_t, uint32_t, T&>; //typename map_iterator::reference;
         using value_type = T;
 
 
