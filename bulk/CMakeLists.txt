@@ -10,8 +10,13 @@ function(append_warn_flags target)
     endif() 
 endfunction()
 
+set(project_version "0.0.0")
+if($ENV{TRAVIS_BUILD_NUMBER})
+    set(project_version "0.0.$ENV{TRAVIS_BUILD_NUMBER}") 
+endif()
+project(${project_name} VERSION ${project_version})
+message("Generate build files for: ${project_name} ${project_version}")
 
-project(${project_name} VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 add_executable( ${project_name} main.cpp bulk.cpp )
 
 set_target_properties(${project_name} PROPERTIES
