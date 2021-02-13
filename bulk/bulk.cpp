@@ -4,14 +4,12 @@
  * @brief Bulk, StaticBulk and DynamicBulk structures implementation
  */
 
-#include "bulk.h"
 #include <iostream>
-#include <algorithm>
 #include <iterator>
-#include <cassert>
 #include <filesystem>
 #include <fstream>
 
+#include "bulk.h"
 
  /*---------- Bulk -------------------------------------------------*/
 
@@ -27,14 +25,14 @@ Bulk::Bulk(size_t n) :max_commands(n) {
 
 /**
  * @brief Return timestamp of Bulk start time
- * @return If bulk isn't valid return 0, else returns time_t (posix time).
+ * @return  time_t (posix time) 
  */
 time_t Bulk::start_time() const {
     return std::chrono::system_clock::to_time_t(start);
 }
 
 /**
- * @brief Put bulk context to ouput stream
+ * @brief Put bulk content to ouput stream
  * Format is "bulk: cmd1 cmd2 ... cmdn {newline}"
  * @param os
  */
@@ -53,8 +51,9 @@ void Bulk::output(std::ostream& os) const {
 /**
  * @brief Log bulk to cout and file
  */
-void Bulk::log()     {
+void Bulk::log() {
     output(std::cout);
+    
     std::string fnamebase = "bulk" + std::to_string(start_time());
     std::string ext = ".log";
     // Ensure each bulk has unique file
@@ -68,18 +67,18 @@ void Bulk::log()     {
     };
 }
 
+ /*---------- Static Bulk ------------------------------------------*/
 
-/*---------- Static Bulk ------------------------------------------*/
-
-/**
- * @brief Construct a new Static Bulk:: Static Bulk object
- * @param n maximum commands in  Bulk
- */
+ /**
+  * @brief Construct a new Static Bulk:: Static Bulk object
+  * @param n maximum commands in  Bulk
+  */
 StaticBulk::StaticBulk(size_t n) :Bulk(n) {
+    start = std::chrono::system_clock::now();
 }
 
 StaticBulk::~StaticBulk() {
-    if (is_valid()) {
+    if (commands.size()) {
         log();
     }
 }
@@ -89,34 +88,26 @@ StaticBulk::~StaticBulk() {
  * When Bulk is compleated or interrupted with new Dynamic bulk
  * it constructs and return pointer to new Bulk
  * @param cmd command
- * @return std::unique_ptr<Bulk> (nullptr) if bulk is not compleate
- * @return std::unique_ptr<Bulk> to new Bulk if bulk is compleate
+ * @return std::unique_ptr<Bulk> (nullptr) if bulk is not filled
+ * @return std::unique_ptr<Bulk> to new Bulk if this bulk is filled
  */
 std::unique_ptr<Bulk> StaticBulk::add_command(std::string cmd) {
     if (cmd == Bulk::cmd_bulk_open) {
         return std::unique_ptr<Bulk>(new DynamicBulk(max_commands));
     }
-    else if (cmd == Bulk::cmd_bulk_close) {
-        ;// input error? ignore it
+    else if (cmd == Bulk::cmd_bulk_close || cmd.empty()) {
+        return nullptr; // input error? ignore it
     }
-    else {
-        // Static bulk starts with first command
-        if (commands.empty()) {
-            start = std::chrono::system_clock::now();
-        }
-        commands.push_back(cmd);
-        if (commands.size() >= max_commands)
-            return std::unique_ptr<Bulk>(new StaticBulk(max_commands));
+
+    commands.push_back(cmd);
+    
+    if (commands.size() == 1) {
+        start = std::chrono::system_clock::now();
+    }
+    if (commands.size() == max_commands) {
+        return std::unique_ptr<Bulk>(new StaticBulk(max_commands));
     }
     return nullptr;
-}
-
-/**
- * @return true if Bulk is correct could be processed
- * @return false if Bulk is invalid
- */
-bool StaticBulk::is_valid() const {
-    return !commands.empty();
 }
 
 
@@ -132,7 +123,7 @@ DynamicBulk::DynamicBulk(size_t n) :Bulk(n), brace_level(1) {
 }
 
 DynamicBulk::~DynamicBulk() {
-    if (is_valid()) {
+    if (brace_level == 0) {
         log();
     }
 }
@@ -145,7 +136,10 @@ DynamicBulk::~DynamicBulk() {
  * @return std::unique_ptr<Bulk> to new Bulk if bulk is compleate
  */
 std::unique_ptr<Bulk> DynamicBulk::add_command(std::string cmd) {
-    if (cmd == Bulk::cmd_bulk_open) {
+    if (cmd.empty()) {
+        return nullptr;
+    }
+    else if (cmd == Bulk::cmd_bulk_open) {
         brace_level++;
     }
     else if (cmd == Bulk::cmd_bulk_close) {
@@ -159,14 +153,3 @@ std::unique_ptr<Bulk> DynamicBulk::add_command(std::string cmd) {
     }
     return nullptr;
 }
-
-
-/**
- * @return true if Bulk is correct and could be processed.
- * @return false if Bulk is invalid
- */
-bool DynamicBulk::is_valid() const {
-    return (brace_level == 0);
-}
-
-
